@@ -22,26 +22,26 @@ async function main() {
         'password': process.env.DB_PASSWORD
     })
 
+    
     app.get('/', (req,res) => {
-        res.send('Hello, World!');
+        // res.send('Hello, World!');
+        res.render('blog/index');
     });
 
-    app.get('/customers', async (req, res) => {
-        let [customers] = await connection.execute('SELECT * FROM Customers INNER JOIN Companies ON Customers.company_id = Companies.company_id');
-        console.log(customers);
-        res.render('customers/index', {
-            'customers': customers
-        })
-    })
+    app.get('/read', (req,res) => {
+        res.render('blog/read');
+    });
 
+    // list out all users in the database
     app.get('/users', async (req, res) => {
         let [users] = await connection.execute('SELECT * FROM Users');
         console.log(users);
-        res.render('blog/index', {
+        res.render('blog/users', {
             'users': users
         })
     })
 
+    // list out all posts in the database
     app.get('/posts', async (req, res) => {
         let [posts] = await connection.execute('SELECT Users.username, Users.email, Posts.title, Posts.content, Posts.created_at FROM Posts JOIN Users ON Posts.user_id = Users.user_id');
         console.log(posts);
@@ -49,9 +49,18 @@ async function main() {
             'posts': posts
         })
     })
+
+    // list out all comments in the database
+    //SELECT Comments.comment_text, Comments.created_at, Posts.title AS post_title, Users.username FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id
+    app.get('/comments', async (req, res) => {
+        let [comments] = await connection.execute('SELECT Posts.title AS post_title,Comments.comment_text,Users.username,Comments.created_at FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id');
+        res.render('blog/comments', {
+            'comments': comments
+        })
+    })
     
 
-    app.listen(3000, ()=>{
+    app.listen(3001, ()=>{
         console.log('Server is running')
     });
 }

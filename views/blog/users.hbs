@@ -9,24 +9,20 @@
 </nav> 
 
 <div class="container mt-4">
-    <h1 class="mb-4">Users and Their Posts</h1>
+    <h1 class="mb-4">Users</h1>
     <table class="table table-bordered table-striped table-hover">
-        <thead class="thead-dark">
+        <thead class="table-dark"> 
             <tr>
                 <th>User Name</th>
                 <th>Email</th>
-                <th>Post Title</th>
-                <th>Content</th>
                 <th>Created on</th>
             </tr>
         </thead>
         <tbody>
-            {{#each posts}}
+            {{#each users}}
             <tr>
                 <td>{{username}}</td>
                 <td>{{email}}</td>
-                <td>{{title}}</td>
-                <td>{{content}}</td>
                 <td>{{created_at}}</td>
             </tr>
             {{/each}}

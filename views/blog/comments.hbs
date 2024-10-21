@@ -7,26 +7,23 @@
         <a class="navbar-brand" href="/"><h2>Home</h2></a>
     </div>
 </nav> 
-
 <div class="container mt-4">
-    <h1 class="mb-4">Users and Their Posts</h1>
+    <h1 class="mb-4">Comments, Posts, and Users</h1>
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
             <tr>
                 <th>User Name</th>
-                <th>Email</th>
                 <th>Post Title</th>
-                <th>Content</th>
+                <th>Comment</th>
                 <th>Created on</th>
             </tr>
         </thead>
         <tbody>
-            {{#each posts}}
+            {{#each comments}}
             <tr>
                 <td>{{username}}</td>
-                <td>{{email}}</td>
-                <td>{{title}}</td>
-                <td>{{content}}</td>
+                <td>{{post_title}}</td>
+                <td>{{comment_text}}</td>
                 <td>{{created_at}}</td>
             </tr>
             {{/each}}

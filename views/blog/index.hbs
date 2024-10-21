@@ -1,25 +1,130 @@
 {{#extends "base"}}
 {{#block "content"}}
 <div class="container mt-4">
-    <h1 class="mb-4">Users</h1>
+
+    <!-- Simple Home Button Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><h2>Home</h2></a>
+        </div>
+    </nav> 
+
+    <!-- READ Section -->
+    <h2 class="mt-5">READ</h2>
     <table class="table table-bordered table-striped table-hover">
-        <thead class="table-dark"> 
+        <thead class="table-dark">
             <tr>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Created on</th>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {{#each users}}
             <tr>
-                <td>{{username}}</td>
-                <td>{{email}}</td>
-                <td>{{created_at}}</td>
+                <td>Users</td>
+                <td><a href="/users" target="_blank">/users</a></td>
+                <td><a href="/users" class="btn btn-info btn-sm">Open Users</a></td>
             </tr>
-            {{/each}}
+            <tr>
+                <td>Posts</td>
+                <td><a href="/posts" target="_blank">/posts</a></td>
+                <td><a href="/posts" class="btn btn-info btn-sm">Open Posts</a></td>
+            </tr>
+            <tr>
+                <td>Comments</td>
+                <td><a href="/comments" target="_blank">/comments</a></td>
+                <td><a href="/comments" class="btn btn-info btn-sm">Open Comments</a></td>
+            </tr>
         </tbody>
     </table>
+
+    <!-- CREATE Section -->
+    <h2 class="mt-5">CREATE</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Create User</td>
+                <td><a href="/users/create" target="_blank">/users/create</a></td>
+                <td><a href="/users/create" class="btn btn-success btn-sm">Create User</a></td>
+            </tr>
+            <tr>
+                <td>Create Post</td>
+                <td><a href="/posts/create" target="_blank">/posts/create</a></td>
+                <td><a href="/posts/create" class="btn btn-success btn-sm">Create Post</a></td>
+            </tr>
+            <tr>
+                <td>Create Comment</td>
+                <td><a href="/comments/create" target="_blank">/comments/create</a></td>
+                <td><a href="/comments/create" class="btn btn-success btn-sm">Create Comment</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- UPDATE Section -->
+    <h2 class="mt-5">UPDATE</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Update User</td>
+                <td><a href="/users/update" target="_blank">/users/update</a></td>
+                <td><a href="/users/update" class="btn btn-warning btn-sm">Update User</a></td>
+            </tr>
+            <tr>
+                <td>Update Post</td>
+                <td><a href="/posts/update" target="_blank">/posts/update</a></td>
+                <td><a href="/posts/update" class="btn btn-warning btn-sm">Update Post</a></td>
+            </tr>
+            <tr>
+                <td>Update Comment</td>
+                <td><a href="/comments/update" target="_blank">/comments/update</a></td>
+                <td><a href="/comments/update" class="btn btn-warning btn-sm">Update Comment</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- DELETE Section -->
+    <h2 class="mt-5">DELETE</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Delete User</td>
+                <td><a href="/users/delete" target="_blank">/users/delete</a></td>
+                <td><a href="/users/delete" class="btn btn-danger btn-sm">Delete User</a></td>
+            </tr>
+            <tr>
+                <td>Delete Post</td>
+                <td><a href="/posts/delete" target="_blank">/posts/delete</a></td>
+                <td><a href="/posts/delete" class="btn btn-danger btn-sm">Delete Post</a></td>
+            </tr>
+            <tr>
+                <td>Delete Comment</td>
+                <td><a href="/comments/delete" target="_blank">/comments/delete</a></td>
+                <td><a href="/comments/delete" class="btn btn-danger btn-sm">Delete Comment</a></td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
 {{/block}}
 {{/extends}}
