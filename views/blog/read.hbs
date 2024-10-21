@@ -1,0 +1,42 @@
+{{#extends "base"}}
+{{#block "content"}}
+
+<!-- Simple Home Button Navbar -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><h2>Home</h2></a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="mb-4">Posts and Their Comments</h1>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Post Author</th>
+                <th>Post Title</th>
+                <th>Post Content</th>
+                <th>Post Created On</th>
+                <th>Comment Author</th>
+                <th>Comment Text</th>
+                <th>Comment Created On</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each posts}}
+            <tr>
+                <td>{{post_author}}</td>
+                <td>{{title}}</td>
+                <td>{{content}}</td>
+                <td>{{post_created_at}}</td>
+                <td>{{#if comment_author}}{{comment_author}}{{else}}N/A{{/if}}</td>
+                <td>{{#if comment_text}}{{comment_text}}{{else}}No comments{{/if}}</td>
+                <td>{{#if comment_created_at}}{{comment_created_at}}{{else}}N/A{{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{/block}}
+{{/extends}}

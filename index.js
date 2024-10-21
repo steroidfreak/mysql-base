@@ -11,6 +11,10 @@ app.use(express.urlencoded({extended:false}));
 
 wax.on(hbs.handlebars);
 wax.setLayoutPath('./views/layouts');
+// Register a custom helper to output JSON in the template
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context, null, 2);
+});
 
 let connection;
 
@@ -51,16 +55,27 @@ async function main() {
     })
 
     // list out all comments in the database
-    //SELECT Comments.comment_text, Comments.created_at, Posts.title AS post_title, Users.username FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id
     app.get('/comments', async (req, res) => {
         let [comments] = await connection.execute('SELECT Posts.title AS post_title,Comments.comment_text,Users.username,Comments.created_at FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id');
         res.render('blog/comments', {
             'comments': comments
         })
     })
+
+    // Route to display the 'read' page
+    app.get('/read', async (req, res) => {
+        res.send('Hello, World!');
+    });
+        
+    
+    
     
 
-    app.listen(3001, ()=>{
+    
+
+    
+
+    app.listen(3000, ()=>{
         console.log('Server is running')
     });
 }
