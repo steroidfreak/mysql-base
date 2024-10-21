@@ -1,0 +1,25 @@
+{{#extends "base"}}
+{{#block "content"}}
+<div class="container mt-4">
+    <h1 class="mb-4">Users</h1>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark"> 
+            <tr>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Created on</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{username}}</td>
+                <td>{{email}}</td>
+                <td>{{created_at}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+{{/block}}
+{{/extends}}
