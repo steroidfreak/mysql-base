@@ -1,0 +1,82 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post {
+    background-color: #e3f2fd; /* Light blue background for posts */
+    border-left: 5px solid #2196f3; /* Blue left border */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+    color: #0d47a1; /* Darker blue for title */
+    margin-bottom: 10px;
+}
+
+.post-content {
+    color: #424242; /* Dark grey for content */
+    margin-bottom: 10px;
+}
+
+.post-author {
+    color: #616161; /* Medium grey for author info */
+    font-size: 0.9em;
+}
+
+.comments-header {
+    margin-top: 15px;
+    color: #0d47a1; /* Dark blue for comments header */
+}
+
+.comments-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.comment {
+    background-color: #ffe0b2; /* Light orange background for comments */
+    border-left: 5px solid #ff9800; /* Orange left border */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-author {
+    color: #bf360c; /* Darker red for comment author */
+    font-weight: bold;
+}
+
+.comment-text {
+    color: #424242; /* Dark grey for comment text */
+}
+
+.comment-date {
+    color: #757575; /* Medium grey for date */
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+.button-container {
+    perspective: 1000px;
+    margin: 20px 0;
+}
+.btn-3d {
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    position: relative;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    box-shadow: 0 6px 0 #0056b3, 0 8px 10px rgba(0,0,0,0.15);
+}
+.btn-3d:hover {
+    transform: translateY(-5px) rotateX(15deg);
+    box-shadow: 0 11px 0 #0056b3, 0 13px 15px rgba(0,0,0,0.2);
+}
+.btn-3d:active {
+    transform: translateY(5px) rotateX(-15deg);
+    box-shadow: 0 1px 0 #0056b3, 0 2px 5px rgba(0,0,0,0.15);
+}

@@ -1,0 +1,42 @@
+{{#extends "base"}}
+
+{{#block "title"}}Edit User{{/block}}
+
+{{#block "content"}}
+<div class="container mt-4">
+    <h1>Edit User</h1>
+
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{/if}}
+
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                name="username" 
+                required 
+                value="{{user.username}}"
+            />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input 
+                type="email" 
+                class="form-control" 
+                name="email" 
+                required 
+                value="{{user.email}}"
+            />
+        </div>
+        <button type="submit" class="btn btn-primary">Update User</button>
+        <a href="/users" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{{/block}}
+
+{{/extends}}

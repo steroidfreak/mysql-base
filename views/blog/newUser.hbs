@@ -1,0 +1,42 @@
+{{#extends "base"}}
+
+{{#block "title"}}Create New User{{/block}}
+
+{{#block "content"}}
+<div class="container mt-4">
+    <h1>Create New User</h1>
+
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{/if}}
+
+    <form method="POST" action="/newUser">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                name="username" 
+                required 
+                value="{{formData.username}}"
+            />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input 
+                type="email" 
+                class="form-control" 
+                name="email" 
+                required 
+                value="{{formData.email}}"
+            />
+        </div>
+        <button type="submit" class="btn btn-primary">Create User</button>
+        <a href="/users" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{{/block}}
+
+{{/extends}}
