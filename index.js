@@ -58,7 +58,8 @@ async function main() {
 
     // list out all posts in the database
     app.get('/posts', async (req, res) => {
-        let [posts] = await connection.execute('SELECT Users.username, Users.email, Posts.title, Posts.content, Posts.created_at FROM Posts JOIN Users ON Posts.user_id = Users.user_id');
+        let [posts] = await connection.execute('SELECT Users.username, Users.email, Posts.post_id, Posts.title, Posts.content, Posts.created_at FROM Posts JOIN Users ON Posts.user_id = Users.user_id');
+        
         res.render('blog/posts', {
             'posts': posts
         })
@@ -172,32 +173,6 @@ async function main() {
         })
     });
 
-    //Route to submit to create a new user
-    // app.post('/newUser', async function (req, res) {
-    //     // req.body will contain what the user has submitted through the form
-    //     // we are using PREPARED STATEMENTS (to counter SQL injection attacks)
-    //     const sql = `
-    //         INSERT INTO Users (username, email, created_at)
-    //         VALUES (?, ?, ?);`
-        
-    //     let temp = req.body.created_at;
-    //     console.log(temp);    
-    //     const bindings = [
-    //         req.body.username,
-    //         req.body.email,
-    //         req.body.created_at
-
-    //     ]
-
-
-    //     // first parameter = the SQL statemnet to execute
-    //     // second parameter = bindings, or the parameter for the question marks, in order
-    //     await connection.execute(sql, bindings);
-
-    //     // redirect tells the client (often time the broswer) to go a different URL
-    //     res.redirect('/users');
-    // });
-    
     app.post('/newUser', async function (req, res) {
         try {
             const sql = `
@@ -288,7 +263,7 @@ async function main() {
     });
 
     // GET route to show edit form
-    app.get('/users/:id/edit', async (req, res) => {
+    app.get('/users/:id/edit', async function(req, res){
         try {
             const [users] = await connection.execute(
                 'SELECT * FROM Users WHERE user_id = ?',
@@ -310,7 +285,7 @@ async function main() {
     });
 
     // POST route to handle the update
-    app.post('/users/:id/edit', async (req, res) => {
+    app.post('/users/:id/edit', async function(req, res){
         try {
             const { username, email } = req.body;
             
@@ -353,6 +328,40 @@ async function main() {
         await connection.execute(`DELETE FROM Users WHERE user_id = ?`, [req.params.user_id]);
         res.redirect('/users');
     })
+
+    app.get('/posts/:post_id/edit', async function(req, res){
+        try {
+            const [posts] = await connection.execute(
+                'SELECT * FROM Posts WHERE post_id = ?',
+                [req.params.post_id]
+            );
+
+            if (posts.length === 0) {
+                res.redirect('/posts');
+                return;
+            }
+
+            res.render('blog/editPost', {
+                'post': posts[0]
+            });
+        } catch (error) {
+            console.error(error);
+            res.redirect('/posts');
+        }
+    });
+
+    app.post('/posts/:post_id/edit', async function(req, res){
+            const { title, content } = req.body;
+            
+            await connection.execute(
+                'UPDATE Posts SET title = ?, content = ? WHERE post_id = ?',
+                [title, content, req.params.post_id]
+            );
+
+            res.redirect('/posts');
+         
+        
+    });
 
     
 

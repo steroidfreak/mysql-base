@@ -18,6 +18,7 @@
                 <th>Post Title</th>
                 <th>Content</th>
                 <th>Created on</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,12 @@
                 <td>{{title}}</td>
                 <td>{{content}}</td>
                 <td>{{created_at}}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="/posts/{{post_id}}/edit" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/posts/{{post_id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </td>
             </tr>
             {{/each}}
         </tbody>
