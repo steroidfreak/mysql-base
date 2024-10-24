@@ -329,6 +329,7 @@ async function main() {
         res.redirect('/users');
     })
 
+    // route to edit Posts
     app.get('/posts/:post_id/edit', async function(req, res){
         try {
             const [posts] = await connection.execute(
@@ -362,6 +363,26 @@ async function main() {
          
         
     });
+
+        // route to delete post
+        app.get('/posts/:post_id/delete', async function(req,res){
+            // display a confirmation form 
+            const [posts] = await connection.execute(
+                "SELECT * FROM Posts WHERE post_id =?", [req.params.post_id]
+            );
+            const post = posts[0];
+            console.log(post);
+    
+            res.render('blog/deletePost', {
+                'post': posts[0]
+            })
+    
+        })
+    
+        app.post('/posts/:post_id/delete', async function(req, res){
+            await connection.execute(`DELETE FROM Posts WHERE post_id = ?`, [req.params.post_id]);
+            res.redirect('/posts');
+        })
 
     
 
