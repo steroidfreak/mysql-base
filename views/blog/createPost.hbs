@@ -25,22 +25,29 @@
             />
         </div>
 
-        <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
+    <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <div class="position-relative">
             <textarea 
                 id="content" 
                 name="content" 
                 class="form-control mb-2" 
                 rows="5" 
                 required>{{formData.content}}</textarea>
-            <button 
-                type="button" 
-                id="generateBtn" 
-                class="btn btn-primary mb-3" 
-                onclick="generateContent()">
-                Generate
-            </button>
+            <div id="loadingIndicator" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75 d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
+        <button 
+            type="button" 
+            id="generateBtn" 
+            class="btn btn-primary mb-3" 
+            onclick="generateContent()">
+            Generate
+        </button>
+    </div>
 
         <div class="mb-3">
             <label for="user_id" class="form-label">Select User</label>
