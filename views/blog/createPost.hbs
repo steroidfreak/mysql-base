@@ -27,22 +27,19 @@
 
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
-            <div class="position-relative">
-                <textarea 
-                    id="content" 
-                    name="content" 
-                    class="form-control" 
-                    rows="5" 
-                    required>{{formData.content}}</textarea>
-                <button 
-                    type="button" 
-                    id="generateBtn" 
-                    class="btn btn-secondary btn-sm position-absolute" 
-                    style="bottom: 10px; left: 10px;"
-                    onclick="generateContent()">
-                    Generate
-                </button>
-            </div>
+            <textarea 
+                id="content" 
+                name="content" 
+                class="form-control mb-2" 
+                rows="5" 
+                required>{{formData.content}}</textarea>
+            <button 
+                type="button" 
+                id="generateBtn" 
+                class="btn btn-primary mb-3" 
+                onclick="generateContent()">
+                Generate
+            </button>
         </div>
 
         <div class="mb-3">
