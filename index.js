@@ -225,7 +225,6 @@ async function main() {
         try {
             // Fetch users for the dropdown
             const [users] = await connection.execute('SELECT user_id, username FROM Users');
-            console.log(users);
             // Render the form with the users list
             res.render('blog/createPost', { users: users, formData: null, error: null });
         } catch (error) {
@@ -327,7 +326,6 @@ async function main() {
             "SELECT * FROM Users WHERE user_id =?", [req.params.user_id]
         );
         const user = users[0];
-        console.log(user);
 
         res.render('blog/deleteUser', {
             'user': users[0]
@@ -382,7 +380,6 @@ async function main() {
                 "SELECT * FROM Posts WHERE post_id =?", [req.params.post_id]
             );
             const post = posts[0];
-            console.log(post);
     
             res.render('blog/deletePost', {
                 'post': posts[0]
@@ -398,7 +395,6 @@ async function main() {
 
     // route to edit Comments
     app.get('/comments/:comment_id/edit', async function(req, res){
-            console.log(req.params.comment_id);
             const [comments] = await connection.execute(
                 'SELECT * FROM Comments WHERE comment_id = ?',
                 [req.params.comment_id]
@@ -436,7 +432,6 @@ async function main() {
             "SELECT * FROM Comments WHERE comment_id =?", [req.params.comment_id]
         );
         const comment = comments[0];
-        console.log(comment);
 
         res.render('blog/deleteComment', {
             'comment': comments[0]
@@ -455,14 +450,13 @@ async function main() {
         // Here you can add your logic to generate content based on the title
         const completion = await openai.chat.completions.create({
             model:"gpt-4o-mini",
-            messages :[{role:"system",content:"you will describe the title you receive and explain it in about 50 words.",
+            messages :[{role:"system",content:"you are helpful assistant, keep the words down to 100, and use html syntax, after every paragraph do a <br>",
                 role:"user", content:title,
         
             }],
         })
         
-        const result = formatToJson(completion.choices[0].message)
-        console.log(result.content);
+        // const result = formatToJson(completion.choices[0].message)
         res.json(completion.choices[0].message);
     });
     
