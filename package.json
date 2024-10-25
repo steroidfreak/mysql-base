@@ -16,6 +16,7 @@
     "handlebars-helpers": "^0.10.0",
     "hbs": "^4.2.0",
     "mysql2": "^3.11.3",
+    "openai": "^4.68.4",
     "wax-on": "^1.2.2"
   }
 }

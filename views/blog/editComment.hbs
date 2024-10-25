@@ -1,0 +1,33 @@
+{{#extends "base"}}
+
+{{#block "title"}}Edit Post{{/block}}
+
+{{#block "content"}}
+<div class="container mt-4">
+    <h1>Edit Post</h1>
+
+    {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {{/if}}
+
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Comment</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                name="comment_text" 
+                required 
+                value="{{comment.comment_text}}"
+            />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update User</button>
+        <a href="/comments" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{{/block}}
+
+{{/extends}}

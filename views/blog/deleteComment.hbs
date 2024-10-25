@@ -1,0 +1,18 @@
+{{#extends "base"}}
+
+{{#block "title"}}Delete Comment{{/block}}
+
+{{#block "content"}}
+<form method="POST">
+    <div class="alert alert-danger">
+        Are you sure you want to delete Comment ID: {{comment.comment_id}}, Comment:"{{comment.comment_text}}".
+        <div>
+            <input type="submit" value="Confirm" class="btn btn-danger"/>
+            <a href="/comments" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>
+
+{{/block}}
+
+{{/extends}}

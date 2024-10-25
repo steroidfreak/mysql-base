@@ -8,23 +8,32 @@
     </div>
 </nav> 
 <div class="container mt-4">
-    <h1 class="mb-4">Comments, Posts, and Users</h1>
+    <h1 class="mb-4">Comments Database</h1>
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
             <tr>
+                <th>Comment ID</th>
                 <th>User Name</th>
                 <th>Post Title</th>
                 <th>Comment</th>
                 <th>Created on</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {{#each comments}}
             <tr>
+                <td>{{comment_id}}</td>
                 <td>{{username}}</td>
                 <td>{{post_title}}</td>
                 <td>{{comment_text}}</td>
                 <td>{{created_at}}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="/comments/{{comment_id}}/edit" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/comments/{{comment_id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </td>
             </tr>
             {{/each}}
         </tbody>

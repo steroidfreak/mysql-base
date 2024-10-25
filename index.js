@@ -2,8 +2,12 @@ const express = require('express');
 const hbs = require('hbs');
 const wax = require('wax-on');
 const helpers = require('handlebars-helpers')();
+const OpenAI = require("openai");
 require('dotenv').config();
-const { createConnection } = require('mysql2/promise');
+
+const api_key = process.env.OPENAI_API_KEY;
+const openai = new OpenAI({apiKey:api_key});
+const { createConnection, format } = require('mysql2/promise');
 
 let app = express();
 
@@ -34,6 +38,14 @@ app.use(express.urlencoded({extended:false}));
 
 let connection;
 
+function formatToJson(gptResponse) {
+    return {
+        "role": gptResponse.role,
+        "content": gptResponse.content,
+        "refusal": gptResponse.refusal
+    };
+}
+
 async function main() {
     connection = await createConnection({
         'host': process.env.DB_HOST,
@@ -44,12 +56,11 @@ async function main() {
 
     
     app.get('/', (req,res) => {
-        // res.send('Hello, World!');
         res.render('blog/index');
     });
 
     // list out all users in the database
-    app.get('/users', async (req, res) => {
+    app.get('/users', async function(req, res){
         let [users] = await connection.execute('SELECT * FROM Users');
         res.render('blog/users', {
             'users': users
@@ -57,7 +68,7 @@ async function main() {
     })
 
     // list out all posts in the database
-    app.get('/posts', async (req, res) => {
+    app.get('/posts', async function(req, res){
         let [posts] = await connection.execute('SELECT Users.username, Users.email, Posts.post_id, Posts.title, Posts.content, Posts.created_at FROM Posts JOIN Users ON Posts.user_id = Users.user_id');
         
         res.render('blog/posts', {
@@ -66,15 +77,15 @@ async function main() {
     })
 
     // list out all comments in the database
-    app.get('/comments', async (req, res) => {
-        let [comments] = await connection.execute('SELECT Posts.title AS post_title,Comments.comment_text,Users.username,Comments.created_at FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id');
+    app.get('/comments', async function(req, res){
+        let [comments] = await connection.execute('SELECT Posts.title AS post_title,Comments.comment_id,Comments.comment_text,Users.username,Comments.created_at FROM Comments JOIN Posts ON Comments.post_id = Posts.post_id JOIN Users ON Comments.user_id = Users.user_id');
         res.render('blog/comments', {
             'comments': comments
         })
     })
 
-    // Route to display the 'read' page
-    app.get('/read', async (req, res) => {
+    // Route to display the 'blog main' page
+    app.get('/read', async function(req, res){
         let [rows] = await connection.execute(`
             SELECT 
                 Posts.post_id,
@@ -384,6 +395,76 @@ async function main() {
             res.redirect('/posts');
         })
 
+
+    // route to edit Comments
+    app.get('/comments/:comment_id/edit', async function(req, res){
+            console.log(req.params.comment_id);
+            const [comments] = await connection.execute(
+                'SELECT * FROM Comments WHERE comment_id = ?',
+                [req.params.comment_id]
+            );
+
+            if (comments.length === 0) {
+                res.redirect('/comments');
+                return;
+            }
+
+            res.render('blog/editComment', {
+                'comment': comments[0]
+            });
+         
+        
+    });
+
+    app.post('/comments/:comment_id/edit', async function(req, res){
+            const { comment_text } = req.body;
+            
+            await connection.execute(
+                'UPDATE Comments SET comment_text = ? WHERE comment_id = ?',
+                [comment_text, req.params.comment_id]
+            );
+
+            res.redirect('/comments');
+         
+        
+    });
+
+    // route to delete post
+    app.get('/comments/:comment_id/delete', async function(req,res){
+        // display a confirmation form 
+        const [comments] = await connection.execute(
+            "SELECT * FROM Comments WHERE comment_id =?", [req.params.comment_id]
+        );
+        const comment = comments[0];
+        console.log(comment);
+
+        res.render('blog/deleteComment', {
+            'comment': comments[0]
+        })
+
+    })
+
+    app.post('/comments/:comment_id/delete', async function(req, res){
+        await connection.execute(`DELETE FROM Comments WHERE comment_id = ?`, [req.params.comment_id]);
+        res.redirect('/comments');
+    })
+
+    app.get('/generate-content', async function(req, res){
+        const title = req.query.title;
+        
+        // Here you can add your logic to generate content based on the title
+        const completion = await openai.chat.completions.create({
+            model:"gpt-4o-mini",
+            messages :[{role:"system",content:"you will describe the title you receive and explain it in about 50 words.",
+                role:"user", content:title,
+        
+            }],
+        })
+        
+        const result = formatToJson(completion.choices[0].message)
+        console.log(result.content);
+        res.json(completion.choices[0].message);
+    });
     
 
     app.listen(3001, ()=>{
