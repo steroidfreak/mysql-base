@@ -13,6 +13,128 @@
     <div class="button-container">
         <a href="/read" class="btn btn-info btn-3d" id="dailyPerspectiveBtn"><h2>The Daily Perspective</h2></a>
     </div>
+
+    <!DOCTYPE html>
+
+    {{!-- schema table --}}
+    <h1>Schema Diagram</h1>
+    <div class="schema-container">
+        <div class="table-container">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pk">🔑 user_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>VARCHAR(50)</td>
+                        <td>NOT NULL</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>VARCHAR(100)</td>
+                        <td>NOT NULL, UNIQUE</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Posts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pk">🔑 post_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>VARCHAR(100)</td>
+                        <td>NOT NULL</td>
+                    </tr>
+                    <tr>
+                        <td>content</td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                    </tr>
+                    <tr>
+                        <td class="fk">🔗 user_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>FOREIGN KEY (users)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Comments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Constraints</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pk">🔑 comment_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>PRIMARY KEY, AUTO_INCREMENT</td>
+                    </tr>
+                    <tr>
+                        <td>comment_text</td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>TIMESTAMP</td>
+                        <td>DEFAULT CURRENT_TIMESTAMP</td>
+                    </tr>
+                    <tr>
+                        <td class="fk">🔗 post_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>FOREIGN KEY (posts)</td>
+                    </tr>
+                    <tr>
+                        <td class="fk">🔗 user_id</td>
+                        <td>INT UNSIGNED</td>
+                        <td>FOREIGN KEY (users)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- READ Section -->
     <h2 class="mt-5">READ</h2>
     <table class="table table-bordered table-striped table-hover">

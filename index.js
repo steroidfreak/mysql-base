@@ -38,12 +38,44 @@ app.use(express.urlencoded({extended:false}));
 
 let connection;
 
-function formatToJson(gptResponse) {
-    return {
-        "role": gptResponse.role,
-        "content": gptResponse.content,
-        "refusal": gptResponse.refusal
+function formatToJson(completion) {
+    // Get the content from the completion
+    const content = completion.content;
+    
+    // Split content into sections by ###
+    const sections = content.split('###').filter(Boolean);
+    
+    // Initialize result object
+    const result = {
+        sections: []
     };
+    
+    // Process each section
+    sections.forEach(section => {
+        // Split first line as title and rest as content
+        const [title, ...contentLines] = section.trim().split('\n');
+        
+        // Process bullet points
+        const points = contentLines
+            .join('\n')
+            .split('-')
+            .filter(Boolean)
+            .map(point => {
+                // Remove markdown formatting
+                return point
+                    .replace(/\*\*/g, '') // Remove bold
+                    .replace(/\*/g, '')   // Remove italic
+                    .trim();
+            });
+
+        // Add section to result
+        result.sections.push({
+            title: title.trim(),
+            points: points
+        });
+    });
+
+    return result;
 }
 
 async function main() {
@@ -220,7 +252,8 @@ async function main() {
             });
         }
     });
-        
+    
+    //Route to create a new Post
     app.get('/createPost', async function (req, res) {
         try {
             // Fetch users for the dropdown
@@ -232,7 +265,6 @@ async function main() {
             res.status(500).send('An error occurred');
         }
     });
-    
     
     app.post('/createPost', async function (req, res) {
         try {
@@ -373,24 +405,24 @@ async function main() {
         
     });
 
-        // route to delete post
-        app.get('/posts/:post_id/delete', async function(req,res){
-            // display a confirmation form 
-            const [posts] = await connection.execute(
-                "SELECT * FROM Posts WHERE post_id =?", [req.params.post_id]
-            );
-            const post = posts[0];
-    
-            res.render('blog/deletePost', {
-                'post': posts[0]
-            })
-    
+    // route to delete post
+    app.get('/posts/:post_id/delete', async function(req,res){
+        // display a confirmation form 
+        const [posts] = await connection.execute(
+            "SELECT * FROM Posts WHERE post_id =?", [req.params.post_id]
+        );
+        const post = posts[0];
+
+        res.render('blog/deletePost', {
+            'post': posts[0]
         })
+
+    })
     
-        app.post('/posts/:post_id/delete', async function(req, res){
-            await connection.execute(`DELETE FROM Posts WHERE post_id = ?`, [req.params.post_id]);
-            res.redirect('/posts');
-        })
+    app.post('/posts/:post_id/delete', async function(req, res){
+        await connection.execute(`DELETE FROM Posts WHERE post_id = ?`, [req.params.post_id]);
+        res.redirect('/posts');
+    })
 
 
     // route to edit Comments
@@ -425,7 +457,7 @@ async function main() {
         
     });
 
-    // route to delete post
+    // route to delete comment
     app.get('/comments/:comment_id/delete', async function(req,res){
         // display a confirmation form 
         const [comments] = await connection.execute(
@@ -456,7 +488,8 @@ async function main() {
             }],
         })
         
-        // const result = formatToJson(completion.choices[0].message)
+        const formattedContent = formatToJson(completion.choices[0].message);
+        console.log(formattedContent);
         res.json(completion.choices[0].message);
     });
     
